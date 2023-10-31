@@ -1,4 +1,9 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-yarn lint-staged
+# yarn lint-staged
+  "pre-commit": [
+      "ts.check",
+      "build",
+      "add-build"
+  ]
