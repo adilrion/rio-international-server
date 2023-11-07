@@ -18,27 +18,21 @@ const addedNewProduct: RequestHandler = TryCatchHandler(async (req, res) => {
   })
 })
 
-const getAllProduct: RequestHandler = TryCatchHandler(async (req, res) => { 
-
-
+const getAllProduct: RequestHandler = TryCatchHandler(async (req, res) => {
+  const paginationOption = pick(req.query, paginationFields)
  
 
-  const paginationOption = pick(req.query, paginationFields)
-
   const result = await productService.getProduct(paginationOption)
-ApiResponse<IProduct[]>(res, {
-  statusCode: 200,
-  success: true,
-  message: 'product retrieved Successfully',
-  meta: result.meta,
-  body: result.data,
+  ApiResponse<IProduct[]>(res, {
+    statusCode: 200,
+    success: true,
+    message: 'product retrieved Successfully',
+    meta: result.meta,
+    body: result.data,
+  })
 })
-
-})
-
-
 
 export const productController = {
   addedNewProduct,
-  getAllProduct
+  getAllProduct,
 }

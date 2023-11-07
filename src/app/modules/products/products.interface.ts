@@ -1,3 +1,5 @@
+import { SortOrder } from "mongoose";
+
 export type IProduct = {
 
   productId?: string;
@@ -15,8 +17,9 @@ export type IPaginationOptions = {
   page?: number;
   limit?: number;
   sortBy?: string;
-  sortOrder?: string;
+  sortOrder?: SortOrder;
   totalProducts?: number;
+  skip?: number
 }
 
 

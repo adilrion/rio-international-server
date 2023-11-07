@@ -1,4 +1,6 @@
+import { SortOrder } from 'mongoose'
 import { ApiError } from '../../../Errors/apiError'
+import { paginationHelper } from '../../../helpers/paginationHelper'
 import {
   IPaginationOptions,
   IProduct,
@@ -22,20 +24,27 @@ const createProduct = async (product: IProduct): Promise<IProduct | null> => {
 const getProduct = async (
   paginationOption: IPaginationOptions,
 ): Promise<IProductResponse<IProduct[]>> => {
-  const { page = 1, limit = 10 } = paginationOption
+  const { skip, limit, page, sortBy, sortOrder } =
+    paginationHelper.paginationFields(paginationOption)
 
-  const skip = (page - 1) * limit
+ const sortSystem: { [key: string]: SortOrder} = {}
 
-  const data = await productModel.find().sort().skip(skip).limit(limit)
+ if (sortBy && sortOrder) {
+   sortSystem[sortBy] = sortOrder
+ }
+  const data = await productModel
+    .find()
+    .sort(sortSystem)
+    .skip(Number(skip))
+    .limit(Number(limit))
+
   const totalProducts = await productModel.countDocuments()
 
   return {
     meta: {
-     
-        page,
-        limit,
-        totalProducts,
-     
+      page,
+      limit,
+      totalProducts,
     },
     data,
   }
