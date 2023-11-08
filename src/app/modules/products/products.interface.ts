@@ -8,7 +8,7 @@ export type IProduct = {
   price: number;
   features: string[];
   status: boolean;
-    rating: number;
+  rating: number;
   category: string;
 }
 
@@ -19,7 +19,8 @@ export type IPaginationOptions = {
   sortBy?: string;
   sortOrder?: SortOrder;
   totalProducts?: number;
-  skip?: number
+  skip?: number;
+  search?: string;
 }
 
 

@@ -5,6 +5,7 @@ const paginationFields = (option: IPaginationOptions):IPaginationOptions => {
     const limit = Number(option.limit || 10)
   const sortBy = option.sortBy || 'created_at'
   const sortOrder = option.sortOrder || 'desc'
+  const search = option.search || ''
 
   const skip = (pageNumber - 1) * limit
 
@@ -14,6 +15,7 @@ const paginationFields = (option: IPaginationOptions):IPaginationOptions => {
     sortBy,
     sortOrder,
     skip,
+    search
   }
 }
 

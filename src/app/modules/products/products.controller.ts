@@ -4,7 +4,7 @@ import { productService } from './products.service'
 import { ApiResponse } from '../../../shared/apiResponse'
 import { IProduct } from './products.interface'
 import pick from '../../../shared/pick'
-import { paginationFields } from '../../../constants/pagination'
+import { paginationFields } from '../../../constants/paginationFields'
 
 const addedNewProduct: RequestHandler = TryCatchHandler(async (req, res) => {
   const { product } = req.body

@@ -1,5 +1,6 @@
 import { SortOrder } from 'mongoose'
 import { ApiError } from '../../../Errors/apiError'
+import { searchableFields } from '../../../constants/paginationFields'
 import { paginationHelper } from '../../../helpers/paginationHelper'
 import {
   IPaginationOptions,
@@ -9,6 +10,7 @@ import {
 import { productModel } from './products.model'
 import { productUtil } from './products.utils'
 
+/* ---------------- Create New Product ----------------*/
 const createProduct = async (product: IProduct): Promise<IProduct | null> => {
   if (product) {
     product.productId = await productUtil.createProductId()
@@ -21,19 +23,35 @@ const createProduct = async (product: IProduct): Promise<IProduct | null> => {
   return createdProduct
 }
 
+/* -------- Get All Product -------- */
+
 const getProduct = async (
   paginationOption: IPaginationOptions,
 ): Promise<IProductResponse<IProduct[]>> => {
-  const { skip, limit, page, sortBy, sortOrder } =
+  const { skip, limit, page, sortBy, sortOrder, search } =
     paginationHelper.paginationFields(paginationOption)
+  // Sort by Query Functionality
+  const sortSystem: { [key: string]: SortOrder } = {}
+  if (sortBy && sortOrder) {
+    sortSystem[sortBy] = sortOrder
+  }
 
- const sortSystem: { [key: string]: SortOrder} = {}
+  // Search Functionality
+  const searchTerm = []
 
- if (sortBy && sortOrder) {
-   sortSystem[sortBy] = sortOrder
- }
+if (search) {
+  searchTerm.push({
+    $or: searchableFields?.map(field => ({
+      [field]: {
+        $regex: new RegExp(search, 'i'), // Use RegExp for case-insensitive search
+      },
+    })),
+  })
+}
+
+  // get data
   const data = await productModel
-    .find()
+    .find({$and: searchTerm })
     .sort(sortSystem)
     .skip(Number(skip))
     .limit(Number(limit))
