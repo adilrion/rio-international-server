@@ -79,7 +79,10 @@ const getProduct = async ( paginationOption: IPaginationOptions, filterFields:IF
 /* -------- Get Single Product -------- */
 
 const getSingleProduct = async (id: string): Promise<IProduct | null> => {
+  
   const result = await productModel.findById(id)
+
+
   return result
 }
 

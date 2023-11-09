@@ -25,7 +25,6 @@ async function main() {
     process.exit(1)
   }
 }
-
 function stopServer() {
   if (server) {
     server.close(() => {
@@ -34,9 +33,8 @@ function stopServer() {
     })
   }
 }
-
-process.on('unhandledRejection', error => {
-  console.log('🔴 Unhandled rejection is detected: ', error)
+process.on('unhandledRejection', (error) => {
+  console.log('🔴 Unhandled rejection is detected: ', error.name)
   stopServer()
 })
 

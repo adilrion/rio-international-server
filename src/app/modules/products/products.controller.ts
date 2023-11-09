@@ -36,17 +36,26 @@ const getAllProduct: RequestHandler = TryCatchHandler(async (req, res) => {
 })
 /* -------- Get Single Product -------- */
 
-const getSingleProduct: RequestHandler = TryCatchHandler(async (req, res) => {
-  const id = req.params.id;
+const getSingleProduct: RequestHandler = TryCatchHandler(async (req, res, next) => {
+  try {
+     const id = req.params.id
 
-  const result = await productService.getSingleProduct(id);
+     const result = await productService.getSingleProduct(id)
 
-   ApiResponse<IProduct>(res, {
-     statusCode: 200,
-     success: true,
-     message: 'product retrieved Successfully',
-     body: result,
-   })
+     ApiResponse<IProduct>(res, {
+       statusCode: 200,
+       success: true,
+       message: 'product retrieved Successfully',
+       body: result,
+     })
+  } catch (error) {
+  
+      next(error)
+  
+
+  }
+
+ 
 })
 
 export const productController = {

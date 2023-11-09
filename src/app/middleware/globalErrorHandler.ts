@@ -5,6 +5,7 @@ import { zodErrorHandler } from '../../Errors/zodErrorHandler'
 import config from '../../config'
 import { IErrorInterface } from '../../interfaces/errorInterface'
 import { ZodError } from 'zod'
+import { castError } from '../../Errors/castError'
 
 export const globalErrorHandler: ErrorRequestHandler = (
   error,
@@ -12,6 +13,8 @@ export const globalErrorHandler: ErrorRequestHandler = (
   res,
   next,
 ) => {
+
+  console.log(error)
   let statusCode = 400
   let message = error?.message
   let errorMessage: IErrorInterface[] = error?.message
@@ -25,7 +28,11 @@ export const globalErrorHandler: ErrorRequestHandler = (
     errorMessage = responseError.errorMessage
   } else if (error instanceof ZodError) {
     const responseError = zodErrorHandler(error)
-
+    statusCode = responseError.statusCode
+    message = responseError.message
+    errorMessage = responseError.errorMessage
+  } else if (error?.name === 'CastError') {
+    const responseError = castError(error)
     statusCode = responseError.statusCode
     message = responseError.message
     errorMessage = responseError.errorMessage
@@ -37,6 +44,7 @@ export const globalErrorHandler: ErrorRequestHandler = (
     message = error?.message
     errorMessage = error?.message ? [{ path: '', message: error?.message }] : []
   }
+ 
   res.status(statusCode).json({
     success: false,
     message,

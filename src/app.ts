@@ -21,7 +21,7 @@ app.get('/', (req: Request, res: Response) => {
 
 // Global Error Handler
 
-app.use(globalErrorHandler)
 app.use(ApiNotFoundError)
 
+app.use(globalErrorHandler)
 export default app
