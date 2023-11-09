@@ -24,6 +24,16 @@ const createProduct = async (product: IProduct): Promise<IProduct | null> => {
   return createdProduct
 }
 
+
+/* -------- Update Single Product -------- */
+
+const updateSingleProduct = async (id: string, product: Partial<IProduct>) => {
+  console.log(product)
+  const updatedProduct = await productModel.findByIdAndUpdate({ _id: id }, product, { new: true })
+  
+  return updatedProduct;
+}
+
 /* -------- Get All Product -------- */
 
 const getProduct = async ( paginationOption: IPaginationOptions, filterFields:IFilterOptions): Promise<IProductResponse<IProduct[]>> => {
@@ -79,15 +89,15 @@ const getProduct = async ( paginationOption: IPaginationOptions, filterFields:IF
 /* -------- Get Single Product -------- */
 
 const getSingleProduct = async (id: string): Promise<IProduct | null> => {
-  
   const result = await productModel.findById(id)
-
-
   return result
 }
+
+
 
 export const productService = {
   createProduct,
   getProduct,
   getSingleProduct,
+  updateSingleProduct,
 }

@@ -19,6 +19,18 @@ const addedNewProduct: RequestHandler = TryCatchHandler(async (req, res) => {
     body: result,
   })
 })
+/* -------- Update  New Product -------- */
+const updateNewProduct: RequestHandler = TryCatchHandler(async (req, res) => {
+  const product  = req.body
+   const id = req.params.id
+  const result = await productService.updateSingleProduct(id, product)
+  ApiResponse<IProduct>(res, {
+    statusCode: 200,
+    success: true,
+    message: 'User update Successfully',
+    body: result,
+  })
+})
 /* -------- Get All Product -------- */
 const getAllProduct: RequestHandler = TryCatchHandler(async (req, res) => {
   const paginationOption = pick(req.query, paginationFields)
@@ -62,4 +74,5 @@ export const productController = {
   addedNewProduct,
   getAllProduct,
   getSingleProduct,
+  updateNewProduct,
 }

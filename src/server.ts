@@ -34,7 +34,7 @@ function stopServer() {
   }
 }
 process.on('unhandledRejection', (error) => {
-  console.log('🔴 Unhandled rejection is detected: ', error.name)
+  console.log('🔴 Unhandled rejection is detected: ', error)
   stopServer()
 })
 
