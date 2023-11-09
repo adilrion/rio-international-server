@@ -20,7 +20,12 @@ export type IPaginationOptions = {
   sortOrder?: SortOrder;
   totalProducts?: number;
   skip?: number;
-  search?: string;
+
+}
+
+export type IFilterOptions = {
+  search?: string
+  category?: string
 }
 
 

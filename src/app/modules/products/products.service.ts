@@ -3,6 +3,7 @@ import { ApiError } from '../../../Errors/apiError'
 import { searchableFields } from '../../../constants/paginationFields'
 import { paginationHelper } from '../../../helpers/paginationHelper'
 import {
+  IFilterOptions,
   IPaginationOptions,
   IProduct,
   IProductResponse,
@@ -25,34 +26,42 @@ const createProduct = async (product: IProduct): Promise<IProduct | null> => {
 
 /* -------- Get All Product -------- */
 
-const getProduct = async (
-  paginationOption: IPaginationOptions,
-): Promise<IProductResponse<IProduct[]>> => {
-  const { skip, limit, page, sortBy, sortOrder, search } =
+const getProduct = async ( paginationOption: IPaginationOptions, filterFields:IFilterOptions): Promise<IProductResponse<IProduct[]>> => {
+  const { skip, limit, page, sortBy, sortOrder } =
     paginationHelper.paginationFields(paginationOption)
   // Sort by Query Functionality
-  const sortSystem: { [key: string]: SortOrder } = {}
+  const sortCondition: { [key: string]: SortOrder } = {}
   if (sortBy && sortOrder) {
-    sortSystem[sortBy] = sortOrder
+    sortCondition[sortBy] = sortOrder
   }
 
+  const andCondition = []
   // Search Functionality
-  const searchTerm = []
+   const { search, ...filtrateData } = filterFields
+  if (search) {
+    andCondition.push({
+      $or: searchableFields?.map(field => ({
+        [field]: {
+          $regex: new RegExp(search, 'i'), // Use RegExp for case-insensitive search
+        },
+      })),
+    })
+  }
+  // Filter Functionality
+ 
 
-if (search) {
-  searchTerm.push({
-    $or: searchableFields?.map(field => ({
-      [field]: {
-        $regex: new RegExp(search, 'i'), // Use RegExp for case-insensitive search
-      },
-    })),
-  })
-}
-
+  if (Object.keys(filtrateData).length) {
+    andCondition.push({
+      $and: Object.entries(filtrateData).map(([key, value]) => ({
+        [key]: value
+      }))
+    })
+  }
+  console.log(search, filtrateData)
   // get data
   const data = await productModel
-    .find({$and: searchTerm })
-    .sort(sortSystem)
+    .find(andCondition.length > 0 ? { $and: andCondition } : {})
+    .sort(sortCondition)
     .skip(Number(skip))
     .limit(Number(limit))
 
