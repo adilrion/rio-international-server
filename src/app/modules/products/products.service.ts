@@ -42,14 +42,12 @@ const getProduct = async ( paginationOption: IPaginationOptions, filterFields:IF
     andCondition.push({
       $or: searchableFields?.map(field => ({
         [field]: {
-          $regex: new RegExp(search, 'i'), // Use RegExp for case-insensitive search
+          $regex: new RegExp(search, 'i'),
         },
       })),
     })
   }
   // Filter Functionality
- 
-
   if (Object.keys(filtrateData).length) {
     andCondition.push({
       $and: Object.entries(filtrateData).map(([key, value]) => ({
@@ -57,7 +55,6 @@ const getProduct = async ( paginationOption: IPaginationOptions, filterFields:IF
       }))
     })
   }
-  console.log(search, filtrateData)
   // get data
   const data = await productModel
     .find(andCondition.length > 0 ? { $and: andCondition } : {})
@@ -77,7 +74,17 @@ const getProduct = async ( paginationOption: IPaginationOptions, filterFields:IF
   }
 }
 
+
+
+/* -------- Get Single Product -------- */
+
+const getSingleProduct = async (id: string): Promise<IProduct | null> => {
+  const result = await productModel.findById(id)
+  return result
+}
+
 export const productService = {
   createProduct,
   getProduct,
+  getSingleProduct,
 }
