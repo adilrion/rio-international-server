@@ -13,7 +13,6 @@
     "lint-prettier": "yarn lint:check && yarn prettier:check",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc"
-   
   },
   "author": "Adil Mahmoud Rion",
   "license": "ISC",
@@ -38,6 +37,7 @@
     "express": "^4.18.2",
     "http-status": "^1.7.3",
     "mongoose": "^7.6.2",
+    "vercel": "^32.5.3",
     "winston": "^3.11.0",
     "winston-daily-rotate-file": "^4.7.1",
     "zod": "^3.22.4"

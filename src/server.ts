@@ -3,7 +3,7 @@ import { Server } from 'http'
 import mongoose from 'mongoose'
 import app from './app'
 import config from './config'
-import logger from './shared/logger'
+// import logger from './shared/logger'
 
 let server: Server
 
@@ -16,19 +16,19 @@ async function main() {
   try {
     await mongoose.connect(config.mongoURI as string)
     server = app.listen(config.port, () => {
-      logger.info(`🟢 Example app listening on port ${config.port}`)
+      console.log(`🟢 Example app listening on port ${config.port}`)
     })
 
-    logger.info('🟢 Database connected successfully')
+    console.log('🟢 Database connected successfully')
   } catch (error) {
-    logger.error('🔴 Something wrong here', error)
+    console.log('🔴 Something wrong here', error)
     process.exit(1)
   }
 }
 function stopServer() {
   if (server) {
     server.close(() => {
-      logger.info('🔴 Server closed')
+      console.log('🔴 Server closed')
       process.exit(0)
     })
   }
