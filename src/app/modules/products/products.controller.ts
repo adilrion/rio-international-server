@@ -19,6 +19,7 @@ const addedNewProduct: RequestHandler = TryCatchHandler(async (req, res) => {
     body: result,
   })
 })
+
 /* -------- Update  New Product -------- */
 const updateNewProduct: RequestHandler = TryCatchHandler(async (req, res) => {
   const product  = req.body
@@ -31,6 +32,7 @@ const updateNewProduct: RequestHandler = TryCatchHandler(async (req, res) => {
     body: result,
   })
 })
+
 /* -------- Get All Product -------- */
 const getAllProduct: RequestHandler = TryCatchHandler(async (req, res) => {
   const paginationOption = pick(req.query, paginationFields)
@@ -46,6 +48,7 @@ const getAllProduct: RequestHandler = TryCatchHandler(async (req, res) => {
     body: result.data,
   })
 })
+
 /* -------- Get Single Product -------- */
 
 const getSingleProduct: RequestHandler = TryCatchHandler(async (req, res, next) => {

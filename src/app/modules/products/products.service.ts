@@ -28,7 +28,6 @@ const createProduct = async (product: IProduct): Promise<IProduct | null> => {
 /* -------- Update Single Product -------- */
 
 const updateSingleProduct = async (id: string, product: Partial<IProduct>) => {
-  console.log(product)
   const updatedProduct = await productModel.findByIdAndUpdate({ _id: id }, product, { new: true })
   
   return updatedProduct;
