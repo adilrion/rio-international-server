@@ -19,7 +19,7 @@ export type IPaginationOptions = {
   sortBy?: string;
   sortOrder?: SortOrder;
   totalProducts?: number;
-  skip?: number;
+  skip?: number; 
 
 }
 

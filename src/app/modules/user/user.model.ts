@@ -29,10 +29,6 @@ const userSchema = new Schema<IUser>(
       type: String,
       required: true,
     },
-    role: {
-      type: String,
-      required: true,
-    },
     contactNumber: {
       type: String,
       required: true,
@@ -45,5 +41,8 @@ const userSchema = new Schema<IUser>(
     },
   },
 )
+
+
+
 
 export const User = model<IUser>('User', userSchema)
