@@ -1,9 +1,9 @@
 import { Schema, model } from 'mongoose'
 import bcrypt from 'bcrypt'
-import { IUser, IUserMethods, UserModel } from './user.interface'
+import { IUser, UserModel } from './user.interface'
 import config from '../../../config'
 
-const userSchema = new Schema<IUser, UserModel, IUserMethods>(
+const userSchema = new Schema<IUser, UserModel>(
   {
     userId: {
       type: String,
@@ -44,21 +44,18 @@ const userSchema = new Schema<IUser, UserModel, IUserMethods>(
   },
 )
 
-userSchema.methods.isUserExist = async function (email: string): Promise<Partial<IUser> | null> {
-   return await User.findOne(
-     { email: email },
-     { email: 1, password: 1, firstName: 1, lastName: 1, userId: 1 },
-  ).lean()
-  
-
+userSchema.statics.isUserExist = async function (email: string): Promise<Partial<IUser> | null> {
+  return await User.findOne(
+    { email: email },
+    { email: 1, password: 1, firstName: 1, lastName: 1, userId: 1 },
+  )
 }
 
-userSchema.methods.isPasswordMatch = async function (givenPassword: string, savedPassword: string): Promise<boolean> {
+userSchema.statics.isPasswordMatch = async function (givenPassword: string, savedPassword: string): Promise<boolean> {
   
     return await bcrypt.compare(givenPassword, savedPassword)
   
 }
-
 
 userSchema.pre('save', async function (next) {
     this.password = await bcrypt.hash(
@@ -68,6 +65,7 @@ userSchema.pre('save', async function (next) {
   
   next();
 })
+
 
 
 export const User = model<IUser, UserModel>('User', userSchema)
