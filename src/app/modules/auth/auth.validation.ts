@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const authValidation = z.object({
+const loginValidation = z.object({
   body: z.object({
     email: z
       .string({ required_error: 'Email required!' })
@@ -19,6 +19,15 @@ const authValidation = z.object({
       }),
   }),
 })
+const refreshTokenValidation = z.object({
+  cookies: z.object({
+    refreshToken: z
+      .string({ required_error: 'Refresh Token required!' })
+  }),
+})
 
 
-export default authValidation;
+export const authValidation = {
+  loginValidation,
+  refreshTokenValidation,
+}

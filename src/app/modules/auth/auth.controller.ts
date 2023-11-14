@@ -28,9 +28,32 @@ const loginUser: RequestHandler = TryCatchHandler(async (req, res) => {
     
 })
 
+const refreshToken: RequestHandler = TryCatchHandler(async (req, res) => {
+  const { refreshToken } = req.cookies
+
+
+
+  const result = await authService.refreshTokenGenerator(refreshToken)
+
+  const cookieOptions = {
+    secure: config.env === 'production',
+    httpOnly: true,
+  }
+
+  res.cookie('refreshToken', refreshToken, cookieOptions)
+
+  ApiResponse<ILoginResponse>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Login Successfully',
+    body: result,
+  })
+})
+
 
 
 
 export const authController = {
   loginUser,
+  refreshToken,
 }
