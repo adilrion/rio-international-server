@@ -1,9 +1,9 @@
-import express, { Application, Request, Response } from 'express'
+import express, { Application, Request, Response} from 'express'
 import cors from 'cors'
 import router from './app/routes'
-import { globalErrorHandler } from './app/middleware/globalErrorHandler'
 import { ApiNotFoundError } from './app/middleware/apiNotFoundError'
 import cookieParser from 'cookie-parser'
+import globalErrorHandler from './app/middleware/globalErrorHandler'
 const app: Application = express()
 
 
@@ -25,6 +25,6 @@ app.get('/', (req: Request, res: Response) => {
 
 // Global Error Handler
 
-app.use(ApiNotFoundError)
 app.use(globalErrorHandler)
+app.use(ApiNotFoundError)
 export default app

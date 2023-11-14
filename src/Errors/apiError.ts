@@ -1,8 +1,9 @@
-class apiError extends Error {
+class ApiError extends Error {
   statusCode: number
-  constructor(status: number, message: string | undefined, stack = '') {
+
+  constructor(statusCode: number, message: string | undefined, stack = '') {
     super(message)
-    this.statusCode = status
+    this.statusCode = statusCode
     if (stack) {
       this.stack = stack
     } else {
@@ -11,4 +12,4 @@ class apiError extends Error {
   }
 }
 
-export const ApiError = apiError
+export default ApiError

@@ -1,11 +1,11 @@
 import { NextFunction, Request, RequestHandler, Response } from 'express'
 
-export const TryCatchHandler = (fn: RequestHandler) => {
-  return async (req: Request, res: Response, next: NextFunction) => {
+export const TryCatchHandler =
+  (fn: RequestHandler) =>
+  async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      fn(req, res, next)
+      await fn(req, res, next)
     } catch (error) {
       next(error)
     }
   }
-}

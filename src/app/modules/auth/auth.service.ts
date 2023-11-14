@@ -1,6 +1,6 @@
 import httpStatus from 'http-status'
-import { JwtPayload, Secret, decode } from 'jsonwebtoken'
-import { ApiError } from '../../../Errors/apiError'
+import { JwtPayload, Secret } from 'jsonwebtoken'
+import  ApiError  from '../../../Errors/apiError'
 import config from '../../../config'
 import { jwtHelper } from '../../../helpers/jwtHelper'
 import { User } from '../user/user.model'

@@ -1,7 +1,7 @@
 import { IUser } from './user.interface'
 import { generateUserId } from './user.utils'
 import { User } from './user.model'
-import { ApiError } from '../../../Errors/apiError'
+import ApiError  from '../../../Errors/apiError'
 
 
 export const createUser = async (user: IUser): Promise<IUser | null> => {

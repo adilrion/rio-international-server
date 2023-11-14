@@ -1,5 +1,8 @@
-import { ErrorRequestHandler } from 'express'
-import { ApiError } from '../../Errors/apiError'
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-console */
+/* eslint-disable no-unused-expressions */
+import { ErrorRequestHandler, NextFunction, Request, Response } from 'express'
+import ApiError from '../../Errors/apiError'
 import { validationError } from '../../Errors/validationError'
 import { zodErrorHandler } from '../../Errors/zodErrorHandler'
 import config from '../../config'
@@ -7,19 +10,21 @@ import { IErrorInterface } from '../../interfaces/errorInterface'
 import { ZodError } from 'zod'
 import { castError } from '../../Errors/castError'
 
-export const globalErrorHandler: ErrorRequestHandler = (
+const globalErrorHandler: ErrorRequestHandler = (
   error,
-  req,
-  res,
-  next,
+  req: Request,
+  res: Response,
+  next: NextFunction
 ) => {
 
-  console.log(error)
+  config.env === 'development' && console.log(`🐱‍🏍 globalErrorHandler ~~`, { error })
+  
   let statusCode = 400
-  let message = error?.message
-  let errorMessage: IErrorInterface[] = error?.message
-    ? [{ path: '', message: error?.message }]
-    : []
+  let message = 'Something went wrong !'
+  let errorMessage: IErrorInterface[] = []
+  
+   
+
 
   if (error?.name === 'ValidationError') {
     const responseError = validationError(error)
@@ -44,12 +49,13 @@ export const globalErrorHandler: ErrorRequestHandler = (
     message = error?.message
     errorMessage = error?.message ? [{ path: '', message: error?.message }] : []
   }
- 
-  res.status(statusCode).json({
-    success: false,
-    message,
-    errorMessage,
-    stack: config.env !== 'production' ? error?.stack : 'undefined',
-  })
+
+   res.status(statusCode).json({
+     success: false,
+     message,
+     errorMessage,
+     stack: config.env !== 'production' ? error?.stack : undefined,
+   })
   next()
 }
+export default globalErrorHandler

@@ -1,5 +1,5 @@
 import { SortOrder } from 'mongoose'
-import { ApiError } from '../../../Errors/apiError'
+import  ApiError  from '../../../Errors/apiError'
 import { searchableFields } from '../../../constants/paginationFields'
 import { paginationHelper } from '../../../helpers/paginationHelper'
 import {
