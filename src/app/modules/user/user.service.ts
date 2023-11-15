@@ -9,6 +9,8 @@ export const createUser = async (user: IUser): Promise<IUser | null> => {
     user.userId = await generateUserId()
  
   }
+  user.role = 'user'
+
   const createUser = await User.create(user)
 
   if (!createUser) {

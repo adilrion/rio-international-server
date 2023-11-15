@@ -40,7 +40,7 @@ const userSchema = new Schema<IUser, UserModel>(
     role: {
       type: String,
       enum: ENUM_USER_ROLE,
-      default: 'user',
+      required: true,
     },
   },
   {
