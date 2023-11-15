@@ -2,7 +2,7 @@ import { RequestHandler } from "express"
 import { TryCatchHandler } from "../../../shared/tryCatchHandler"
 import { authService } from "./auth.service";
 import { ApiResponse } from "../../../shared/apiResponse";
-import {ILoginResponse } from "./auth.interface";
+import {ILoginResponse, IRefreshTokenResponse } from "./auth.interface";
 import httpStatus from "http-status";
 import config from "../../../config";
 
@@ -42,7 +42,7 @@ const refreshToken: RequestHandler = TryCatchHandler(async (req, res) => {
 
   res.cookie('refreshToken', refreshToken, cookieOptions)
 
-  ApiResponse<ILoginResponse>(res, {
+  ApiResponse<IRefreshTokenResponse>(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Login Successfully',
