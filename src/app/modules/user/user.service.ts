@@ -7,11 +7,8 @@ import ApiError  from '../../../Errors/apiError'
 export const createUser = async (user: IUser): Promise<IUser | null> => {
   if (user) {
     user.userId = await generateUserId()
-  }
-
  
-
-
+  }
   const createUser = await User.create(user)
 
   if (!createUser) {

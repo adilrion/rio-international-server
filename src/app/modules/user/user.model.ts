@@ -2,6 +2,7 @@ import { Schema, model } from 'mongoose'
 import bcrypt from 'bcrypt'
 import { IUser, UserModel } from './user.interface'
 import config from '../../../config'
+import { ENUM_USER_ROLE } from '../../../enums/user'
 
 const userSchema = new Schema<IUser, UserModel>(
   {
@@ -25,6 +26,7 @@ const userSchema = new Schema<IUser, UserModel>(
     email: {
       type: String,
       required: true,
+      unique: true,
     },
     password: {
       type: String,
@@ -35,11 +37,21 @@ const userSchema = new Schema<IUser, UserModel>(
       type: String,
       required: true,
     },
+    role: {
+      type: String,
+      enum: ENUM_USER_ROLE,
+      default: 'user',
+    },
   },
   {
-    timestamps: {
-      createdAt: 'created_at',
-      updatedAt: 'updated_at',
+    timestamps: true,
+    toJSON: {
+      virtuals: true,
+      transform: (doc, ret) => {
+        // Exclude the 'password' field from the response
+        delete ret.password
+        return ret
+      },
     },
   },
 )
@@ -47,7 +59,7 @@ const userSchema = new Schema<IUser, UserModel>(
 userSchema.statics.isUserExist = async function (email: string): Promise<Partial<IUser> | null> {
   return await User.findOne(
     { email: email },
-    { email: 1, password: 1, firstName: 1, lastName: 1, userId: 1 },
+    { email: 1, password: 1, firstName: 1, lastName: 1, userId: 1, role: 1 },
   )
 }
 

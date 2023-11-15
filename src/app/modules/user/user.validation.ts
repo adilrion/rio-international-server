@@ -40,13 +40,15 @@ export const UserValidationSchema = z.object({
           .refine(value => value.trim() !== '', {
             message: 'Password is required!',
           }),
-          contactNumber: z
+        contactNumber: z
           .string({ required_error: 'Contact number is required!' })
           .min(1, { message: 'Contact number is required!' })
           .max(20, { message: 'Contact number cannot exceed 20 characters!' })
           .refine(value => value.trim() !== '', {
             message: 'Contact number is required!',
           }),
+        role: z
+          .string({ required_error: 'Role is required!' }).optional()
       })
       .refine(value => Object.keys(value).length > 0, {
         message: 'User details are required!',

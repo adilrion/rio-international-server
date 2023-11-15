@@ -9,6 +9,7 @@ export type IUser = {
   email: string
   password: string
   contactNumber: string
+  role: string
 }
 
 
