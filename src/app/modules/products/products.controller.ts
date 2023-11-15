@@ -10,9 +10,6 @@ import { filterFields, paginationFields } from '../../../constants/paginationFie
 /* -------- Add New Product -------- */
 const addedNewProduct: RequestHandler = TryCatchHandler(async (req, res) => {
   const { product } = req.body
-  // console.log(req.headers.authorization)
-
-  console.log('🤷‍♂️🤷‍♂️🤷‍♂️', req.user)
   const result = await productService.createProduct(product)
   ApiResponse<IProduct>(res, {
     statusCode: 200,
